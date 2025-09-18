@@ -28,10 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-# CORS settings
-CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:3000"
-]
 
 CORS_ALLOW_ALL_ORIGINS = True  # Only for development
 
@@ -93,24 +89,12 @@ WSGI_APPLICATION = 'app_dgtn.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 # Use PostgreSQL for production/Docker, SQLite for local development
-if os.environ.get('DATABASE_URL'):
-    import dj_database_url
-    DATABASES = {
-        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
-else:
-    # Default to PostgreSQL configuration as specified in README.md
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('POSTGRES_DB', 'dgtn'),
-            'USER': os.environ.get('POSTGRES_USER', 'postgres'),
-            'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'dgtn@2025'),
-            'HOST': os.environ.get('POSTGRES_HOST', 'db'),
-            'PORT': os.environ.get('POSTGRES_PORT', '5432'),
-        }
-    }
-
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
